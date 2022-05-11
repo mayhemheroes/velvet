@@ -1,0 +1,6 @@
+project: rnshah9/velvet
+target: velveth
+
+cmds:
+  - cmd: /velvet/velveth output/ 21 @@
+    filepath: /test.fa
