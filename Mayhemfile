@@ -2,5 +2,4 @@ project: velvet
 target: velveth
 
 cmds:
-  - cmd: /velvet/velveth output/ 21 /test.fa
-    filepath: /test.fa
+  - cmd: /velveth output/ 21 @@
