@@ -1,0 +1,5 @@
+project: velvet
+target: velveth
+
+cmds:
+  - cmd: /velveth output/ 21 @@
