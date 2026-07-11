@@ -1,0 +1,17 @@
+project: velvet
+target: velveth
+# libFuzzer target: fuzz velvet's sequence-file parser (the kseq.h reader driven by readFastXFile in
+# src/readSet.c). The harness (mayhem/fuzz_velveth.c) instantiates kseq over the fuzz input and runs
+# the same kseq_read() loop velveth uses, in-process — no output directory, no hashing, no global
+# state. This replaces driving the velveth CLI (`velveth <outdir> 21 -fasta @@`), whose FIXED output
+# directory accumulated per-exec state (opendir/mkdir + an appending <outdir>/Log + splay-table
+# hashing) that Mayhem could not clear between execs, tripping the per-exec timeout even on the
+# default all-'A' test case. The harness runs each case in microseconds while still fuzzing the
+# FASTA/FASTQ parser. The seeds remain valid FASTA/FASTQ records.
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/velveth/testsuite
+cmds:
+  - cmd: /mayhem/velveth
+    libfuzzer: true
+    # abort (signal) that Mayhem records as a real crash rather than a benign exit.
